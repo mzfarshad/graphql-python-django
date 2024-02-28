@@ -5,14 +5,14 @@ class Query(graphene.ObjectType):
     name = graphene.String(username=graphene.String(default_value="World"))
 
     def resolve_name(self, info, username):
-        return f"Hello {info.context.get('user')}"
+        return f"Hello {username}"
 
 
 schema = graphene.Schema(query=Query)
 result = schema.execute("""
-    query{
-        name
+    query ($username:String){
+        name(username:$username)
     }
-""", context={"user": "alex"})
+""", variables={"username": "alex"})
 
 print(result.data)
