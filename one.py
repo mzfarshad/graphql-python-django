@@ -3,16 +3,16 @@ import json
 
 
 class Query(graphene.ObjectType):
-    name = graphene.String()
+    name = graphene.String(username=graphene.String(default_value='farshad'))
 
-    def resolve_name(self, info):
-        return 'Hello User'
+    def resolve_name(self, info, username):
+        return f'Hello {username}'
 
 
 schema = graphene.Schema(query=Query)
 result = schema.execute("""
     query{
-        name
+        name(username:"mahour")
     }
 """)
 
